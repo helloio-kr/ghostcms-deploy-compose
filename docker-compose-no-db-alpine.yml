@@ -6,7 +6,7 @@ services:
     container_name: ${CONTAINER_NAME:-ghost_cms}
     restart: always
     ports:
-      - "${GHOST_HOST_PORT:-2368}:${GHOST_CONTAINER_PORT:-5001}"
+      - "${GHOST_HOST_PORT:-5001}:${GHOST_CONTAINER_PORT:-2368}"
     environment:
       url: ${URL:-http://localhost:2368}
       database__client: ${DB_CLIENT:-mysql}
