@@ -11,4 +11,4 @@ This repository provides Docker Compose configurations for deploying Ghost CMS. 
 ## Usage
 1. Download the desired configuration:
    ```bash
-   wget https://raw.githubusercontent.com/yourusername/ghostcms-deploy-compose/main/docker-compose-db-alpine.yml -O docker-compose.yml
+   wget https://raw.githubusercontent.com/helloio-kr/ghostcms-deploy-compose/main/docker-compose-db-alpine.yml -O docker-compose.yml
