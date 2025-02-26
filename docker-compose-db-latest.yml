@@ -1,0 +1,49 @@
+version: '1.0'
+
+services:
+  ghost:
+    image: ghost:latest
+    container_name: ${CONTAINER_NAME:-ghost_cms}
+    restart: always
+    ports:
+      - "${HOST_PORT:-2368}:${CONTAINER_PORT:-2368}"
+    environment:
+      url: ${URL:-http://localhost:2368}
+      database__client: ${DB_CLIENT:-mysql}
+      database__connection__host: ${DB_HOST:-db}
+      database__connection__user: ${DB_USER}
+      database__connection__password: ${DB_PASSWORD}
+      database__connection__database: ${DB_NAME}
+      mail__transport: ${MAIL_TRANSPORT:-SMTP}
+      mail__options__service: ${MAIL_SERVICE}
+      mail__options__host: ${MAIL_HOST}
+      mail__options__port: ${MAIL_PORT}
+      mail__options__auth__user: ${MAIL_USER}
+      mail__options__auth__pass: ${MAIL_PASSWORD}
+      mail__from: ${MAIL_FROM}
+    depends_on:
+      - db
+    volumes:
+      - ${CONTENT_PATH:-/home/user/ghost/content}:/var/lib/ghost/content
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:2368"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  db:
+    image: mysql:8.0
+    container_name: mysql_db
+    restart: always
+    ports:
+      - "${MYSQL_HOST_PORT:-3307}:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${DB_NAME}
+      MYSQL_USER: ${DB_USER}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+    volumes:
+      - db-data:/var/lib/mysql
+
+volumes:
+  db-data:
